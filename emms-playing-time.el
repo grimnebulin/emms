@@ -65,6 +65,11 @@ Valid styles are `time' (e.g., 01:30/4:20),
 and `downtime' (e.g. -03:58)."
   :type 'symbol)
 
+(defcustom emms-playing-time-resume-from-last-played nil
+  "If set to Non-nil, emms will resume / seek to
+ the last playing time when the track is started again."
+  :type 'boolean)
+
 
 ;;; Emms Playing Time
 
@@ -123,6 +128,15 @@ and `downtime' (e.g. -03:58)."
   (declare (obsolete emms-playing-time-mode "Apr 2021"))
   (emms-playing-time-mode (if (and arg (> arg 0)) 1 -1)))
 
+(defun emms-playing-time-track-reset ()
+  (emms-track-set (emms-playlist-current-selected-track)
+		  'playing-time nil))
+
+(defun emms-playing-time-maybe-seek-to-last-played ()
+  (when-let ((last-playing-time
+	      (emms-track-get (emms-playlist-current-selected-track)
+			      'playing-time)))
+    (emms-seek-to last-playing-time)))
 
 (define-minor-mode emms-playing-time-mode
   "Turn on emms playing time if ARG is positive, off otherwise.
@@ -144,19 +158,28 @@ could call `emms-playing-time-enable-display' and
 	(emms-playing-time-mode-line)
 	(add-hook 'emms-player-started-hook       #'emms-playing-time-start)
 	(add-hook 'emms-player-stopped-hook       #'emms-playing-time-stop)
+	(add-hook 'emms-player-finished-hook
+		  #'emms-playing-time-track-reset)
 	(add-hook 'emms-player-finished-hook      #'emms-playing-time-stop)
 	(add-hook 'emms-player-paused-hook        #'emms-playing-time-pause)
 	(add-hook 'emms-player-seeked-functions   #'emms-playing-time-seek)
-	(add-hook 'emms-player-time-set-functions #'emms-playing-time-set))
+	(add-hook 'emms-player-time-set-functions #'emms-playing-time-set)
+	(when emms-playing-time-resume-from-last-played
+	  (add-hook 'emms-player-started-hook
+		    #'emms-playing-time-maybe-seek-to-last-played)))
     (setq emms-playing-time-display-mode nil)
     (emms-playing-time-stop)
     (emms-playing-time-restore-mode-line)
     (remove-hook 'emms-player-started-hook       #'emms-playing-time-start)
     (remove-hook 'emms-player-stopped-hook       #'emms-playing-time-stop)
     (remove-hook 'emms-player-finished-hook      #'emms-playing-time-stop)
+    (remove-hook 'emms-player-finished-hook
+		 #'emms-playing-time-track-reset)
     (remove-hook 'emms-player-paused-hook        #'emms-playing-time-pause)
     (remove-hook 'emms-player-seeked-functions   #'emms-playing-time-seek)
-    (remove-hook 'emms-player-time-set-functions #'emms-playing-time-set)))
+    (remove-hook 'emms-player-time-set-functions #'emms-playing-time-set)
+    (remove-hook 'emms-player-started-hook
+		 #'emms-playing-time-maybe-seek-to-last-played)))
 
 ;;;###autoload
 (define-minor-mode emms-playing-time-display-mode
@@ -184,6 +207,8 @@ could call `emms-playing-time-enable-display' and
 (defun emms-playing-time-display ()
   "Display playing time on the mode line."
   (setq emms-playing-time (round (1+ emms-playing-time)))
+  (emms-track-set (emms-playlist-current-selected-track)
+		  'playing-time emms-playing-time)
   (setq emms-playing-time-string
         (if (null emms-playing-time-display-mode)
             ""
