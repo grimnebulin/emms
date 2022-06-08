@@ -1426,13 +1426,13 @@ See emms-source-file.el for some examples."
   (emms-actions-add-action nil type track))
 
 (defun emms-actions-add (action-f type)
-  (let ((track (emms-playlist-current-selected-track)))
+  (let ((track (emms-playlist-track-at (point))))
     (if track
 	(emms-actions-add-action action-f type track)
       (error "no track selected"))))
 
 (defun emms-actions-remove (type)
-  (let ((track (emms-playlist-current-selected-track)))
+  (let ((track (emms-playlist-track-at (point))))
     (if track
 	(emms-actions-remove-action type track)
       (error "no track selected"))))
