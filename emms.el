@@ -1,6 +1,6 @@
 ;;; emms.el --- The Emacs Multimedia System  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2003-2021  Free Software Foundation, Inc.
+;; Copyright (C) 2003-2022  Free Software Foundation, Inc.
 
 ;; Author: Jorgen Schäfer <forcer@forcix.cx>, the Emms developers (see AUTHORS file)
 ;; Maintainer: Yoni Rabkin <yrk@gnu.org>
@@ -1399,6 +1399,43 @@ See emms-source-file.el for some examples."
         '(save-restriction
            (widen)
            (emms-shuffle)))))
+
+;;; ------------------------------------------------------------------
+;;; actions
+;;; ------------------------------------------------------------------
+(defun emms-actions-run-before (track)
+  (when (not (emms-track-p track))
+    (error "null track"))
+  (let ((action (emms-track-get track 'before-action)))
+    (when action
+      (message "running Emms track action")
+      (funcall action track))))
+
+(defun emms-actions-run-after (track)
+  (when (not (emms-track-p track))
+    (error "null track"))
+  (let ((action (emms-track-get track 'after-action)))
+    (when action
+      (message "running Emms track action")
+      (funcall action track))))
+
+(defun emms-actions-add-action (action-f type track)
+  (emms-track-set track type action-f))
+
+(defun emms-actions-remove-action (type track)
+  (emms-actions-add-action nil type track))
+
+(defun emms-actions-add (action-f type)
+  (let ((track (emms-playlist-current-selected-track)))
+    (if track
+	(emms-actions-add-action action-f type track)
+      (error "no track selected"))))
+
+(defun emms-actions-remove (type)
+  (let ((track (emms-playlist-current-selected-track)))
+    (if track
+	(emms-actions-remove-action type track)
+      (error "no track selected"))))
 
 
 ;;; Players
