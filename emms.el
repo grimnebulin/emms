@@ -1408,7 +1408,7 @@ See emms-source-file.el for some examples."
     (error "null track"))
   (let ((action (emms-track-get track 'before-action)))
     (when action
-      (message "running Emms track action")
+      (message "running Emms track action (before)")
       (funcall action track))))
 
 (defun emms-actions-run-after (track)
@@ -1416,7 +1416,7 @@ See emms-source-file.el for some examples."
     (error "null track"))
   (let ((action (emms-track-get track 'after-action)))
     (when action
-      (message "running Emms track action")
+      (message "running Emms track action (after)")
       (funcall action track))))
 
 (defun emms-actions-add-action (action-f type track)
@@ -1425,13 +1425,13 @@ See emms-source-file.el for some examples."
 (defun emms-actions-remove-action (type track)
   (emms-actions-add-action nil type track))
 
-(defun emms-actions-add (action-f type)
+(defun emms-actions-add-at-point (action-f type)
   (let ((track (emms-playlist-track-at (point))))
     (if track
 	(emms-actions-add-action action-f type track)
       (error "no track selected"))))
 
-(defun emms-actions-remove (type)
+(defun emms-actions-remove-at-point (type)
   (let ((track (emms-playlist-track-at (point))))
     (if track
 	(emms-actions-remove-action type track)
@@ -1547,6 +1547,11 @@ If the track can be played by more than one player, call
 This should only be done by the current player itself."
   (setq emms-player-playing-p player
         emms-player-paused-p  nil)
+  ;; actions
+  (let ((track (emms-playlist-current-selected-track)))
+    (when track
+      (emms-actions-run-before track)))
+  ;; hooks
   (run-hooks 'emms-player-started-hook))
 
 (defun emms-player-stop ()
@@ -1564,6 +1569,10 @@ This should only be done by the current player itself."
       (run-hooks 'emms-player-stopped-hook)
     (sleep-for emms-player-delay)
     (run-hooks 'emms-player-finished-hook)
+    ;; actions run on finished, not stopped
+    (let ((track (emms-playlist-current-selected-track)))
+      (when track
+	(emms-actions-run-after track)))
     (funcall emms-player-next-function)))
 
 (defun emms-player-pause ()
