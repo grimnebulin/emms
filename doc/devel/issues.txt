@@ -1,0 +1,49 @@
+-*- outline -*-
+* Emms issue tracking document
+Created 28/11/2022 by yrk.
+
+
+* --------------------------------------------------------------------
+* Outstanding
+* --------------------------------------------------------------------
+** emms-info-native does not write playing time to track
+
+
+** exiftool info writes "0" playing time to track
+
+
+** Fran's mpris branch
+Follow up with Fran on the mpris branch with the goal of merging it.
+
+
+** recreate: Scrobbing to libre.fm silently failing
+Scrobbing to libre.fm is reported to silently fail despite a
+successful handshake. This has not been recreated yet.
+
+
+** test and improve the quickstart section of the manual
+
+
+** automatic player discovery and configuration
+Ideally, players would be discovered and a file with the configuration
+would be written to the ".emacs.d/emms/" directory.
+
+
+** automatic info method discovery and configuration
+info methods would be discovered and a file with the configuration
+would be written to the ".emacs.d/emms/" directory.
+
+
+** option to make the space key play and pause in browser
+
+
+** Emms-player-mpd: doesn't see if other clients pause the daemon
+*** From: Björn Bidar via <emms-help@gnu.org>, 13 Nov 2022
+"Hey, I noticed that when other mpd clients pause mpd Emms doesn't
+notice it which results in `emms-playing-time-display-mode`/the
+playing time continue to go on even thou the player is paused."
+
+
+* --------------------------------------------------------------------
+* Fixed
+* --------------------------------------------------------------------
