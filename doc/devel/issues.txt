@@ -17,6 +17,9 @@ http://www.mp3-tech.org/programmer/frame_header.html
 ** exiftool info writes "0" playing time to track
 
 
+** exiftool info writes garbage to info-note ("Comment") field
+
+
 ** Fran's mpris branch
 Follow up with Fran on the mpris branch with the goal of merging it.
 
