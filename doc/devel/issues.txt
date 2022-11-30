@@ -7,6 +7,11 @@ Created 28/11/2022 by yrk.
 * Outstanding
 * --------------------------------------------------------------------
 ** emms-info-native does not write playing time to track
+Calculating the duration of a track is not trivial. See here:
+https://shadowfacts.net/2021/mp3-duration/
+
+An native implementation of track duration would be welcome:
+http://www.mp3-tech.org/programmer/frame_header.html
 
 
 ** exiftool info writes "0" playing time to track
