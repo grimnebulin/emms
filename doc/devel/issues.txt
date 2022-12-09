@@ -31,15 +31,12 @@ This is in process as of 09/12/2022.
 Try to achieve a situation where you invoke "M-x emms-setup" and after
 being asked a few questions a configuration is written for the user.
 
-
-** automatic player discovery and configuration
 Ideally, players would be discovered and a file with the configuration
-would be written to the ".emacs.d/emms/" directory.
+would be written to the ".emacs.d/emms/" directory, the same can be
+done for info methods.
 
-
-** automatic info method discovery and configuration
-info methods would be discovered and a file with the configuration
-would be written to the ".emacs.d/emms/" directory.
+Finally, the user can be asked for their music directory, and Emms can
+do the "add-directory-tree" for them.
 
 
 ** option to make the space key play and pause in browser
