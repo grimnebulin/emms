@@ -24,6 +24,12 @@ successful handshake. This has not been recreated yet.
 
 
 ** test and improve the quickstart section of the manual
+This is in process as of 09/12/2022.
+
+
+** better "out of the box" experience with Emms
+Try to achieve a situation where you invoke "M-x emms-setup" and after
+being asked a few questions a configuration is written for the user.
 
 
 ** automatic player discovery and configuration
