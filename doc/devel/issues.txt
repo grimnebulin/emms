@@ -31,10 +31,6 @@ An native implementation of track duration would be welcome:
 http://www.mp3-tech.org/programmer/frame_header.html
 
 
-** Fran's mpris branch
-Follow up with Fran on the mpris branch with the goal of merging it.
-
-
 ** better "out of the box" experience with Emms
 Try to achieve a situation where you invoke "M-x emms-setup" and after
 being asked a few questions a configuration is written for the user.
@@ -70,3 +66,9 @@ should be made optional, and not the default.
 * --------------------------------------------------------------------
 ** test and improve the quickstart section of the manual
 Completed 09/12/2022.
+
+
+** Fran's mpris branch
+Follow up with Fran on the mpris branch with the goal of merging it.
+
+Merging into release 13 on 09/01/2023.
