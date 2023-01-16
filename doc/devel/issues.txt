@@ -23,6 +23,12 @@ playing time continue to go on even thou the player is paused."
 * --------------------------------------------------------------------
 * feature implementation
 * --------------------------------------------------------------------
+** cover art
+Can Emms extract cover art automatically? Explore this using the
+following as a basis:
+https://www.emacs.dyerdwelling.family/emacs/20230112122044-emacs--creating-album-art-thumbnails-for-emms/
+
+
 ** emms-info-native does not write playing time to track
 Calculating the duration of a track is not trivial. See here:
 https://shadowfacts.net/2021/mp3-duration/
