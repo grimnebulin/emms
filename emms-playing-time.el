@@ -39,7 +39,6 @@
 
 ;;; Code:
 
-(require 'cl-lib)
 (require 'emms-info)
 (require 'emms-player-simple)
 
@@ -198,14 +197,14 @@ could call `emms-playing-time-enable-display' and
                        'info-playing-time)
                       0))
                  (string
-	          (cl-case emms-playing-time-style
-	            ((downtime)         ; `downtime' style
+	          (pcase emms-playing-time-style
+	            ('downtime         ; `downtime' style
 	             (if (or emms-playing-time-display-short-p
                              ;; unable to get total playing-time
                              (eq total-playing-time 0))
                          (emms-playing-time-format-time emms-playing-time)
                        (concat "-" (emms-playing-time-format-time (- total-playing-time emms-playing-time)))))
-		    ((bar)              ; `bar' style
+		    ('bar              ; `bar' style
 		     (if (zerop total-playing-time)
 		         "[==>........]"
                        (let (;; percent based on 10
@@ -216,7 +215,7 @@ could call `emms-playing-time-enable-display' and
                                  ">"
                                  (make-string (- 10 percent) ?\s)
                                  "]"))))
-                    (t                  ; `time' style
+                    (_                 ; `time' style
                      (concat
                       (emms-playing-time-format-time emms-playing-time)
                       (unless (or emms-playing-time-display-short-p
